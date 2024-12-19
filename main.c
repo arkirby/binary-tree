@@ -14,6 +14,7 @@ typedef struct Node
 Node *create(int data)
 {
   Node *node = (Node *)malloc(sizeof(Node));
+
   node->data = data;
   node->left = NULL;
   node->right = NULL;
@@ -77,28 +78,80 @@ void setchildpeers(Node *node)
   setchildpeers(node->left);
 }
 
+// initialize the tree based on the diagram in the README
+Node *initializeTree()
+{
+  Node *n1 = create(1);
+  n1->data = 1;
+
+  // commented out nodes below are to make the tree resemble the diagram
+  // in the README
+  Node *n2 = insleft(2, n1);
+  Node *n3 = insright(3, n1);
+  Node *n4 = insleft(4, n2);
+  Node *n5 = insright(5, n2);
+  Node *n6 = insleft(6, n3);
+  Node *n7 = insright(7, n3);
+  // Node *n8 = insleft(8, n4);
+  Node *n9 = insright(9, n4);
+  Node *n10 = insleft(10, n5);
+  Node *n11 = insright(11, n5);
+  // Node *n12 = insleft(12, n6);
+  // Node *n13 = insright(13, n6);
+  Node *n14 = insleft(14, n7);
+  Node *n15 = insright(15, n7);
+  // Node *n16 = insleft(16, n8);
+  // Node *n17 = insright(17, n8);
+  // Node *n18 = insleft(18, n9);
+  // Node *n19 = insright(19, n9);
+  Node *n20 = insleft(20, n10);
+  // Node *n21 = insright(21, n10);
+  // Node *n22 = insleft(22, n11);
+  // Node *n23 = insright(23, n11);
+  // Node *n24 = insleft(24, n14);
+  // Node *n25 = insright(25, n14);
+  Node *n26 = insleft(26, n15);
+  // Node *n27 = insright(27, n15);
+
+  return n1;
+}
+
+// prints out the tree and the data from each node's peer if it has a peer
+void printtree(Node *node)
+{
+  if (node == NULL)
+    return;
+
+  printf("Node: %02d   [ ", node->data);
+  if (node->peer != NULL)
+    printf("peer: %02d   ", node->peer->data);
+  else
+    printf("peer:      ");
+
+  if (node->left != NULL)
+    printf("left: %02d   ", node->left->data);
+  else
+    printf("left:      ");
+
+  if (node->right != NULL)
+    printf("right: %02d ]\n", node->right->data);
+  else
+    printf("right:    ]\n");
+
+  printtree(node->left);
+  printtree(node->right);
+}
+
 int main()
 {
-  // create root node
-  Node *n0 = (Node *)malloc(sizeof(Node));
-  n0->data = 1;
-
-  // create left child node
-  Node *n2 = insleft(2, n0);
-
-  // create left child node's children
-  insleft(4, n2);
-  insright(5, n2);
-
-  // create right child node
-  Node *n3 = insright(3, n0);
-
-  // create right child node's children
-  insleft(6, n3);
-  insright(7, n3);
+  // initialize the tree
+  Node *tree = initializeTree();
 
   // go through the tree and set the peer nodes
-  setchildpeers(n0);
+  setchildpeers(tree);
+
+  // print the tree
+  printtree(tree);
 
   return 0;
 }
